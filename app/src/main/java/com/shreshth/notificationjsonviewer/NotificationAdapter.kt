@@ -74,11 +74,20 @@ class NotificationAdapter :
         val item = notifications[position]
 
         holder.source.text =
-            item.title?.takeIf { it.isNotBlank() }
-                ?: getAppName(holder.itemView.context, item.packageName)
+            getAppName(
+                holder.itemView.context,
+                item.packageName
+            )
+
+        val title = item.title ?: ""
+        val text = item.text ?: ""
 
         holder.message.text =
-            item.text ?: "No message content"
+            if (title.isNotBlank()) {
+                "$title\n$text"
+            } else {
+                text
+            }
 
         holder.time.text =
             "Time: ${
