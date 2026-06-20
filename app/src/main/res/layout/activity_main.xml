@@ -21,7 +21,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="🔔 Notification Feed"
+        android:text="Transaction Intelligence"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/textPrimary"/>
@@ -31,10 +31,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Monitor notifications in real time"
+        android:text="Transform notifications into financial transactions"
         android:textSize="14sp"
         android:alpha="0.7"
         android:textColor="@color/textSecondary"/>
+    <LinearLayout
+        android:id="@+id/tabContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNotifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notifications"
+            android:textAllCaps="false"
+            app:cornerRadius="20dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTransactions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Transactions"
+            android:textAllCaps="false"
+            app:cornerRadius="20dp"/>
+
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         app:cornerRadius="18dp"
@@ -44,6 +69,23 @@
         android:layout_marginTop="20dp"
         android:text="Enable Notification Access"
         android:textColor="@color/textPrimary"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnExportDataset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Export Dataset"
+        android:textAllCaps="false"
+        android:textColor="@color/textPrimary"
+        app:cornerRadius="18dp"/>
+    <TextView
+        android:id="@+id/tvStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:text="0 Transactions Parsed"/>
     <TextView
         android:id="@+id/tvEmptyState"
         android:layout_width="match_parent"

@@ -21,13 +21,12 @@ object CounterpartyExtractor {
 
         // X sent ₹
         Regex(
-            "^(.+?)\\s+sent\\s+₹",
+            "^(.+?)\\s+has\\s+sent\\s+₹",
             RegexOption.IGNORE_CASE
         )
             .find(text)
             ?.let {
-                return it.groupValues[1]
-                    .trim()
+                return it.groupValues[1].trim()
             }
 
         return null

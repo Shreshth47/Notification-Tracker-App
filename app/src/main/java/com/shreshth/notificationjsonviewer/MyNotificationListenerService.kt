@@ -9,6 +9,8 @@ import com.shreshth.notificationjsonviewer.detector.TransactionDetector
 import com.shreshth.notificationjsonviewer.detector.AmountExtractor
 import com.shreshth.notificationjsonviewer.detector.CounterpartyExtractor
 import com.shreshth.notificationjsonviewer.detector.TransactionBuilder
+import com.shreshth.notificationjsonviewer.detector.TransactionType
+import com.shreshth.notificationjsonviewer.model.DatasetEntry
 
 class MyNotificationListenerService : NotificationListenerService() {
     private val gson = Gson()
@@ -58,6 +60,40 @@ class MyNotificationListenerService : NotificationListenerService() {
             TransactionBuilder.build(
                 notificationData
             )
+
+        if (
+            candidate.type ==
+            TransactionType.EXPENSE ||
+
+            candidate.type ==
+            TransactionType.INCOME
+        ) {
+
+            TransactionStore
+                .addTransaction(
+                    candidate
+                )
+
+            DatasetStore
+                .addEntry(
+                    DatasetEntry(
+                        notification = notificationData,
+                        transaction = candidate
+                    )
+                )
+        }
+
+
+
+        Log.d(
+            "DatasetStore",
+            "Entries: ${DatasetStore.entries.value.size}"
+        )
+
+        Log.d(
+            "TransactionStore",
+            candidate.toString()
+        )
 
         Log.d(
             "TransactionCandidate",

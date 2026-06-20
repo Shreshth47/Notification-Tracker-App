@@ -2,6 +2,7 @@ package com.shreshth.notificationjsonviewer.model
 
 import com.shreshth.notificationjsonviewer.detector.TransactionType
 import com.shreshth.notificationjsonviewer.detector.TransactionCategory
+import com.shreshth.notificationjsonviewer.detector.ParseConfidence
 
 data class TransactionCandidate(
     val type: TransactionType,
@@ -19,4 +20,5 @@ data class TransactionCandidate(
 
     val originalText: String?,
     val category: TransactionCategory,
+    val confidence: ParseConfidence
 )

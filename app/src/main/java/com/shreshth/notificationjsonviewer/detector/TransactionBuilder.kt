@@ -32,6 +32,24 @@ object TransactionBuilder {
             CategoryDetector.detect(
                 counterparty
             )
+        val confidence =
+            when {
+
+                amount != null &&
+                        counterparty != null &&
+                        type != TransactionType.UNKNOWN ->
+
+                    ParseConfidence.HIGH
+
+                amount != null &&
+                        type != TransactionType.UNKNOWN ->
+
+                    ParseConfidence.MEDIUM
+
+                else ->
+
+                    ParseConfidence.LOW
+            }
 
 
         return TransactionCandidate(
@@ -59,8 +77,8 @@ object TransactionBuilder {
             category =
                 CategoryDetector.detect(
                     counterparty
-                )
-
+                ) ,
+            confidence = confidence
         )
     }
 }

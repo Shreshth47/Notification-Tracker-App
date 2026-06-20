@@ -33,6 +33,11 @@ object AppNameResolver {
                 true
             ) -> "SMS"
 
+            packageName.contains(
+                "messaging",
+                true
+            ) -> "Messages"
+
             else ->
                 packageName
         }

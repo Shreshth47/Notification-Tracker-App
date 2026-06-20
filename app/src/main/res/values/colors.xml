@@ -1,13 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primary">#6750A4</color>
+    <color name="primary">#0EA5A4</color>
     <color name="onPrimary">#FFFFFF</color>
 
-    <color name="background">#121212</color>
-    <color name="surface">#1E1E1E</color>
+    <color name="background">#09090B</color>
+    <color name="surface">#111114</color>
 
     <color name="textPrimary">#FFFFFF</color>
-    <color name="textSecondary">#B0B0B0</color>
+    <color name="textSecondary">#9CA3AF</color>
+
+    <color name="success">#22C55E</color>
+    <color name="danger">#EF4444</color>
 
 </resources>

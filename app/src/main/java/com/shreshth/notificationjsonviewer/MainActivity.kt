@@ -14,10 +14,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import android.view.View
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.widget.Toast
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var adapter: NotificationAdapter
+    private lateinit var notificationAdapter: NotificationAdapter
+
+    private lateinit var transactionAdapter:
+            TransactionCandidateAdapter
+    private var currentTab = "notifications"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -26,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         setContentView(R.layout.activity_main)
+        DatasetStore.initialize(this)
 
         val btnEnableAccess =
             findViewById<Button>(R.id.btnEnableAccess)
@@ -33,28 +43,33 @@ class MainActivity : AppCompatActivity() {
             findViewById<RecyclerView>(R.id.rvNotifications)
         val emptyState =
             findViewById<TextView>(R.id.tvEmptyState)
+        val btnNotifications =
+            findViewById<Button>(
+                R.id.btnNotifications
+            )
 
-        adapter = NotificationAdapter()
+        val btnTransactions =
+            findViewById<Button>(
+                R.id.btnTransactions
+            )
+        val btnExportDataset =
+            findViewById<Button>(
+                R.id.btnExportDataset
+            )
+
+        notificationAdapter =
+            NotificationAdapter()
+
+        transactionAdapter =
+            TransactionCandidateAdapter()
 
         recyclerView.layoutManager =
             LinearLayoutManager(this)
 
-        recyclerView.adapter = adapter
+        recyclerView.adapter =
+            notificationAdapter
 
-        lifecycleScope.launch {
-
-            NotificationStore.notifications.collect { list ->
-
-                adapter.submitList(list)
-
-                if (list.isEmpty()) {
-                    emptyState.visibility = View.VISIBLE
-                } else {
-                    emptyState.visibility = View.GONE
-                }
-
-            }
-        }
+        observeNotifications(emptyState)
 
         btnEnableAccess.setOnClickListener {
 
@@ -63,7 +78,99 @@ class MainActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+        btnNotifications.setOnClickListener {
 
+            currentTab = "notifications"
+
+            recyclerView.adapter =
+                notificationAdapter
+
+            notificationAdapter.submitList(
+                NotificationStore.notifications.value
+            )
+
+            emptyState.text =
+                "🔔\n\nWaiting for notifications..."
+        }
+
+        btnTransactions.setOnClickListener {
+
+            currentTab = "transactions"
+
+            recyclerView.adapter =
+                transactionAdapter
+
+            transactionAdapter.submitList(
+                TransactionStore.transactions.value
+            )
+
+            emptyState.text =
+                "💸\n\nWaiting for transactions..."
+        }
+
+        btnExportDataset.setOnClickListener {
+
+            DatasetExporter.export(this)
+
+        }
+
+    }
+    private fun observeNotifications(
+        emptyState: TextView
+    ) {
+
+        lifecycleScope.launch {
+
+            NotificationStore.notifications.collect { list ->
+
+                if (currentTab == "notifications") {
+
+                    notificationAdapter.submitList(list)
+
+                    emptyState.visibility =
+                        if (list.isEmpty())
+                            View.VISIBLE
+                        else
+                            View.GONE
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+
+            TransactionStore.transactions.collect { list ->
+
+                if (currentTab == "transactions") {
+
+                    transactionAdapter.submitList(list)
+
+                    emptyState.visibility =
+                        if (list.isEmpty())
+                            View.VISIBLE
+                        else
+                            View.GONE
+                }
+            }
+        }
+    }
+
+    private fun observeTransactions(
+        emptyState: TextView
+    ) {
+
+        lifecycleScope.launch {
+
+            TransactionStore.transactions.collect { list ->
+
+                transactionAdapter.submitList(list)
+
+                emptyState.visibility =
+                    if (list.isEmpty())
+                        View.VISIBLE
+                    else
+                        View.GONE
+            }
+        }
     }
 
 }
